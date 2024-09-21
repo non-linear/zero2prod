@@ -8,7 +8,7 @@ services:
     github:
       # Depending on when you created the repository,
       # the default branch on GitHub might have been named `master`
-      branch: main
+      branch: master
       # Deploy a new version on every commit to `main`!
       # Continuous Deployment, here we come!
       deploy_on_push: true
@@ -30,3 +30,26 @@ services:
     # All incoming requests should be routed to our app
     routes:
       - path: /
+    envs:
+      - key: APP_DATABASE__USERNAME
+        scope: RUN_TIME
+        value: ${newsletter.USERNAME}
+      - key: APP_DATABASE__PASSWORD
+        scope: RUN_TIME
+        value: ${newsletter.PASSWORD}
+      - key: APP_DATABASE__HOST
+        scope: RUN_TIME
+        value: ${newsletter.HOSTNAME}
+      - key: APP_DATABASE__PORT
+        scope: RUN_TIME
+        value: ${newsletter.PORT}
+      - key: APP_DATABASE__DATABASE_NAME
+        scope: RUN_TIME
+        value: ${newsletter.DATABASE}
+
+databases:
+  - engine: PG
+    name: newsletter
+    num_nodes: 1
+    size: db-s-dev-database
+    version: "12"
